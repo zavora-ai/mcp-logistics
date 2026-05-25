@@ -1,0 +1,135 @@
+server_id = "mcp_logistics"
+display_name = "Logistics"
+version = "1.0.0"
+domain = "logistics"
+sdk_version = "0.1.0"
+risk_level = "medium"
+writes_allowed = "gated"
+transports = ["stdio"]
+credentials = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key", "vault://google-maps-key"]
+governance_gates = ["logistics-write-policy"]
+environments = ["development", "staging", "production"]
+
+# ─── Shipments ────────────────────────────────────────────────────────────────
+
+[[tools]]
+name = "create_shipment"
+description = "Create a new shipment with origin, destination, and parcels"
+risk_class = "external_write"
+requires_approval = true
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+[[tools]]
+name = "list_shipments"
+description = "List shipments with optional status filter"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+[[tools]]
+name = "get_shipment"
+description = "Get shipment details by ID"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+[[tools]]
+name = "cancel_shipment"
+description = "Cancel a shipment"
+risk_class = "external_write"
+requires_approval = true
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+# ─── Rates & Carriers ────────────────────────────────────────────────────────
+
+[[tools]]
+name = "get_rates"
+description = "Get shipping rates for a shipment from multiple carriers"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+[[tools]]
+name = "compare_rates"
+description = "Compare rates across carriers sorted by price or speed"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+[[tools]]
+name = "list_carriers"
+description = "List available carriers"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+[[tools]]
+name = "book_rate"
+description = "Book a specific rate and purchase a shipping label"
+risk_class = "financial_action"
+requires_approval = true
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+# ─── Tracking ─────────────────────────────────────────────────────────────────
+
+[[tools]]
+name = "track_shipment"
+description = "Get real-time tracking status for a shipment"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+[[tools]]
+name = "get_tracking_events"
+description = "Get full tracking event history for a shipment"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+# ─── Labels & Documents ───────────────────────────────────────────────────────
+
+[[tools]]
+name = "generate_label"
+description = "Generate a shipping label for a booked shipment"
+risk_class = "internal_write"
+requires_approval = false
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+[[tools]]
+name = "get_label"
+description = "Get an existing label by shipment ID"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token", "vault://sendy-key"]
+
+# ─── Addresses ────────────────────────────────────────────────────────────────
+
+[[tools]]
+name = "validate_address"
+description = "Validate and normalize a shipping address"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://shipengine-key", "vault://shippo-token"]
+
+# ─── Routes & Optimization ───────────────────────────────────────────────────
+
+[[tools]]
+name = "optimize_route"
+description = "Optimize delivery route for multiple stops"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://google-maps-key"]
+
+[[tools]]
+name = "get_eta"
+description = "Get estimated time of arrival between two points"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://google-maps-key"]
+
+[[tools]]
+name = "get_distance"
+description = "Get distance and duration between two addresses"
+risk_class = "read_only"
+requires_approval = false
+credential_bindings = ["vault://google-maps-key"]
