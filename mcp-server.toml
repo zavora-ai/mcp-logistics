@@ -1,6 +1,6 @@
 server_id = "mcp_logistics"
 display_name = "Logistics"
-version = "1.1.0"
+version = "1.1.1"
 domain = "logistics"
 sdk_version = "0.1.0"
 risk_level = "medium"

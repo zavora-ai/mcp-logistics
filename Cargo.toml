@@ -1,6 +1,6 @@
 [package]
 name = "mcp-logistics"
-version = "1.1.0"
+version = "1.1.1"
 edition = "2024"
 authors = ["James Karanja <james.karanja@zavora.ai>"]
 description = "Enterprise Logistics MCP Server — shipments, carriers, tracking, route optimization, and warehouse management with ShipEngine, Shippo, Sendy (Africa), and Google Maps"
