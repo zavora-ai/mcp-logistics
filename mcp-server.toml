@@ -2,15 +2,13 @@ server_id = "mcp_logistics"
 display_name = "Logistics"
 version = "1.1.1"
 domain = "logistics"
-sdk_version = "0.1.0"
-risk_level = "medium"
+sdk_version = "0.2.0"
+risk_level = "critical"
 writes_allowed = "gated"
 transports = ["stdio"]
 credentials = ["vault://shipengine-key", "vault://shippo-token", "vault://google-maps-key"]
-governance_gates = ["logistics-write-policy"]
+governance_gates = ["logistics-write-policy", "mrtr_approval"]
 environments = ["development", "staging", "production"]
-
-# ─── Shipments ────────────────────────────────────────────────────────────────
 
 [[tools]]
 name = "create_shipment"
@@ -40,8 +38,6 @@ risk_class = "external_write"
 requires_approval = true
 credential_bindings = ["vault://shipengine-key", "vault://shippo-token"]
 
-# ─── Rates & Carriers ────────────────────────────────────────────────────────
-
 [[tools]]
 name = "get_rates"
 description = "Get shipping rates for a shipment from multiple carriers"
@@ -70,8 +66,6 @@ risk_class = "financial_action"
 requires_approval = true
 credential_bindings = ["vault://shipengine-key", "vault://shippo-token"]
 
-# ─── Tracking ─────────────────────────────────────────────────────────────────
-
 [[tools]]
 name = "track_shipment"
 description = "Get real-time tracking status for a shipment"
@@ -85,8 +79,6 @@ description = "Get full tracking event history for a shipment"
 risk_class = "read_only"
 requires_approval = false
 credential_bindings = ["vault://shipengine-key", "vault://shippo-token"]
-
-# ─── Labels & Documents ───────────────────────────────────────────────────────
 
 [[tools]]
 name = "generate_label"
@@ -102,16 +94,12 @@ risk_class = "read_only"
 requires_approval = false
 credential_bindings = ["vault://shipengine-key", "vault://shippo-token"]
 
-# ─── Addresses ────────────────────────────────────────────────────────────────
-
 [[tools]]
 name = "validate_address"
 description = "Validate and normalize a shipping address"
 risk_class = "read_only"
 requires_approval = false
 credential_bindings = ["vault://shipengine-key", "vault://shippo-token"]
-
-# ─── Routes & Optimization ───────────────────────────────────────────────────
 
 [[tools]]
 name = "optimize_route"

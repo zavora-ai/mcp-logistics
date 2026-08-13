@@ -31,7 +31,7 @@ pub struct LogisticsServer {
     pub routes: Option<Arc<dyn RouteBackend>>,
 }
 
-#[tool_router(server_handler)]
+#[tool_router]
 impl LogisticsServer {
     #[tool(description = "Create a new shipment with origin, destination, and parcels")]
     async fn create_shipment(&self, Parameters(i): Parameters<CreateShipmentInput>) -> String {
@@ -113,4 +113,11 @@ impl HealthCheck for LogisticsServer {
             Err(e) => HealthStatus { healthy: false, message: Some(format!("{}: {e}", self.shipping.name())), latency_ms: None },
         }
     }
+}
+
+adk_mcp_sdk::mcp_2026_server! {
+    server: LogisticsServer,
+    task_tools: ["generate_label", "optimize_route"],
+    approval_tools: ["create_shipment", "cancel_shipment", "book_rate"],
+    cache_ttl_ms: 60_000,
 }
